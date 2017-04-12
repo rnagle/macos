@@ -1,0 +1,45 @@
+---
+- name: install janus
+  shell: curl -L https://bit.ly/janus-bootstrap | bash
+
+- name: install my janus config
+  shell: |
+    rm -Rf /tmp/janus
+    git clone --quiet git@github.com:rnagle/janus.git /tmp/janus
+    mv /tmp/janus {{ lookup('env', 'HOME') }}/.janus
+    cd {{ lookup('env', 'HOME') }}/.janus
+    git submodule update --init --recursive
+
+- name: set up vimrc symlink
+  file:
+    src: "{{ lookup('env', 'HOME') }}/.janus/vimrc.after"
+    dest: "{{ lookup('env', 'HOME') }}/.vimrc.after"
+    state: link
+
+- name: set up gvimrc symlink
+  file:
+    src: "{{ lookup('env', 'HOME') }}/.janus/gvimrc.after"
+    dest: "{{ lookup('env', 'HOME') }}/.gvimrc.after"
+    state: link
+
+- name: install js and json linters
+  shell: |
+    npm install -g jscs
+    npm install -g jsonlint
+
+- name: check for ~/.config dir
+  stat:
+    path: "{{ lookup('env', 'HOME') }}/.config"
+  register: config_check
+
+- name: create ~/.config directory
+  file:
+    path: "{{ lookup('env', 'HOME') }}/.config"
+    state: directory
+  when: not config_check.stat.exists
+
+- name: set up flake8 config
+  file:
+    src: "{{ lookup('env', 'HOME') }}/.janus/config/flake8"
+    dest: "{{ lookup('env', 'HOME') }}/.config/flake8"
+    state: link

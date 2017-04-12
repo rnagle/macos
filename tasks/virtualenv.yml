@@ -1,0 +1,58 @@
+---
+- name: install virtualenv
+  become: yes
+  action:
+    module: pip
+    name: virtualenv
+    state: present
+
+- name: install virtualenvwrapper
+  become: yes
+  action:
+    module: pip
+    name: virtualenvwrapper
+    state: present
+
+- name: set workon home path
+  become: yes
+  action:
+    module: lineinfile
+    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
+    regexp: "export WORKON_HOME"
+    line: "export WORKON_HOME={{ lookup('env', 'HOME') }}/.virtualenvs/"
+    state: present
+    backup: yes
+    create: yes
+
+- name: set virtualenvwrapper python path
+  become: yes
+  action:
+    module: lineinfile
+    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
+    regexp: "export VIRTUALENVWRAPPER_PYTHON"
+    line: "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python"
+    state: present
+    backup: yes
+    create: yes
+
+- name: set virtualenvwrapper path
+  become: yes
+  action:
+    module: lineinfile
+    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
+    regexp: "export VIRTUALENVWRAPPER_VIRTUALENV"
+    line: "export VIRTUALENVWRAPPER_VIRTUALENV=/usr/local/bin/virtualenv"
+    state: present
+    backup: yes
+    create: yes
+
+- name: load virtualenvwrapper.sh
+  become: yes
+  action:
+    module: lineinfile
+    dest: "{{ lookup('env', 'HOME') }}/.zshrc"
+    regexp: "source /usr/local/bin/virtualenvwrapper.sh"
+    line: "source /usr/local/bin/virtualenvwrapper.sh"
+    state: present
+    backup: yes
+    create: yes

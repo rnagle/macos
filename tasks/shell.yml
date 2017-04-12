@@ -1,0 +1,15 @@
+---
+- name: install oh my zsh
+  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  become: true
+
+- name: get username
+  command: whoami
+  register: local_username
+  delegate_to: 127.0.0.1
+
+- name: change login shell to zsh
+  user:
+    name: "{{local_username.stdout}}"
+    shell: /bin/zsh
+  become: true

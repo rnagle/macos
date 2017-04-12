@@ -1,0 +1,18 @@
+---
+- hosts: localhost
+  connection: local
+  tasks:
+    - name: ensure github.com is a known host
+      lineinfile:
+        dest: "{{ lookup('env', 'HOME') }}/.ssh/known_hosts"
+        create: yes
+        state: present
+        line: "{{ lookup('pipe', 'ssh-keyscan -t rsa github.com') }}"
+        regexp: "^github\\.com"
+
+    - include: tasks/ssh.yml
+    - include: tasks/packages.yml
+    - include: tasks/shell.yml
+    - include: tasks/editor.yml
+    - include: tasks/virtualenv.yml
+    - include: tasks/apps.yml
