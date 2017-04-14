@@ -5,7 +5,7 @@ Installs and configures a bunch of my preferred tools, apps, etc.
 ## How to
 
 - Download/checkout the repo: `git clone https://github.com/rnagle/macos.git`
-- Place id_rsa, id_rsa.pub and config in files/ssh (depends on *rsa files)
+- Place id_rsa, id_rsa.pub and config in files/ssh before running `provision.sh`
 - Run `./provision.sh`
 
 ## Notes
@@ -32,6 +32,7 @@ Installs and configures a bunch of my preferred tools, apps, etc.
         - files/ssh/id_rsa -> ~/.ssh/id_rsa
         - files/ssh/id_rsa.pub -> ~/.ssh/id_rsa.pub
         - files/ssh/config -> ~/.ssh/config
+    - Uses ssh to clone repos from Github, so this is required
 - Python specific:
     - Installs virtualenv and virtualenvwrapper
 - Macvim:
