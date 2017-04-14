@@ -1,4 +1,23 @@
 ---
+- name: read terminal plist
+  command: defaults read ~/Library/Preferences/com.apple.Terminal.plist
+
+- name: default to homebrew dark theme
+  osx_defaults:
+    domain: com.apple.Terminal.plist
+    key: "Default Window Settings"
+    type: string
+    value: "Homebrew"
+  notify: read terminal plist
+
+- name: startup to homebrew dark theme
+  osx_defaults:
+    domain: com.apple.Terminal.plist
+    key: "Startup Window Settings"
+    type: string
+    value: "Homebrew"
+  notify: read terminal plist
+
 - name: install oh my zsh
   shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
   become: true
@@ -10,6 +29,6 @@
 
 - name: change login shell to zsh
   user:
-    name: "{{local_username.stdout}}"
+    name: "{{ local_username.stdout }}"
     shell: /bin/zsh
   become: true

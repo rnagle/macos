@@ -30,7 +30,7 @@
     module: lineinfile
     dest: "{{ lookup('env', 'HOME') }}/.zshrc"
     regexp: "export VIRTUALENVWRAPPER_PYTHON"
-    line: "export VIRTUALENVWRAPPER_PYTHON=/usr/bin/python"
+    line: "export VIRTUALENVWRAPPER_PYTHON=/usr/local/bin/python"
     state: present
     backup: yes
     create: yes

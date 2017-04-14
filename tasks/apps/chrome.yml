@@ -6,12 +6,3 @@
     url: https://dl.google.com/chrome/mac/stable/GGRO/googlechrome.dmg
     archive_type: dmg
     archive_path: "Google Chrome.app"
-
-- name: Chrome - get default browser
-  shell: defaultbrowser | sed 's/Current:\ //' | head -1
-  register: defaultbrowser_value
-  changed_when: False
-
-- name: Chrome - set as default browser
-  command: defaultbrowser -set chrome
-  when: defaultbrowser_value.stdout != "chrome"

@@ -3,6 +3,6 @@
   become: true
   mac_pkg:
     pkg_type: app
-    url: https://www.hipchat.com/downloads/latest/mac
-    archive_type: zip
+    url: https://s3.amazonaws.com/downloads.hipchat.com/osx/HipChat-4.29.0-732.dmg
+    archive_type: dmg
     archive_path: "HipChat.app"

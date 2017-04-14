@@ -1,4 +1,13 @@
 ---
+- name: check for brew
+  stat:
+    path: "/usr/local/bin/brew"
+  register: brew_check
+
+- name: install brew
+  shell: /usr/bin/ruby -e "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/master/install)"
+  when: not brew_check.stat.exists
+
 - homebrew:
     name: "{{ item }}"
     state: present
@@ -20,3 +29,4 @@
     - macvim
     - ctags-exuberant
     - flake8
+    - youtube-dl
