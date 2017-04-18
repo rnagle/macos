@@ -1,4 +1,17 @@
 ---
+- name: install macvim 7.4
+  mac_pkg:
+    pkg_type: app
+    url: https://github.com/macvim-dev/macvim/releases/download/snapshot-108/MacVim.dmg
+    archive_type: dmg
+    archive_path: "MacVim.app"
+
+- name: install mvim helper
+  copy:
+    src: files/mvim
+    dest: /usr/local/bin/mvim
+    mode: "0755"
+
 - name: install janus
   shell: curl -L https://bit.ly/janus-bootstrap | bash
 
@@ -21,6 +34,15 @@
     src: "{{ lookup('env', 'HOME') }}/.janus/gvimrc.after"
     dest: "{{ lookup('env', 'HOME') }}/.gvimrc.after"
     state: link
+
+- name: get meslo powerline fonts
+  get_url:
+    url: "https://github.com/powerline/fonts/raw/master/Meslo%20Dotted/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/Library/Fonts/{{ item }}"
+  with_items:
+    - "Meslo LG L DZ Regular for Powerline.ttf"
+    - "Meslo LG M DZ Regular for Powerline.ttf"
+    - "Meslo LG S DZ Regular for Powerline.ttf"
 
 - name: install js and json linters
   shell: |

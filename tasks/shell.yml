@@ -1,34 +1,61 @@
 ---
-- name: read terminal plist
-  command: defaults read ~/Library/Preferences/com.apple.Terminal.plist
-
-- name: default to homebrew dark theme
-  osx_defaults:
-    domain: com.apple.Terminal.plist
-    key: "Default Window Settings"
-    type: string
-    value: "Homebrew"
-  notify: read terminal plist
-
-- name: startup to homebrew dark theme
-  osx_defaults:
-    domain: com.apple.Terminal.plist
-    key: "Startup Window Settings"
-    type: string
-    value: "Homebrew"
-  notify: read terminal plist
-
-- name: install oh my zsh
-  shell: sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
-  become: true
+- name: get oh my zsh install.sh
+  get_url:
+    url: https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh
+    dest: /tmp/install.sh
+    mode: "0755"
 
 - name: get username
   command: whoami
   register: local_username
   delegate_to: 127.0.0.1
 
+- name: install oh my zsh
+  shell: sh /tmp/install.sh
+  become: true
+  become_user: "{{ local_username.stdout }}"
+
 - name: change login shell to zsh
   user:
     name: "{{ local_username.stdout }}"
     shell: /bin/zsh
   become: true
+
+- name: install pure prompt
+  shell: npm install --global pure-prompt
+
+- name: install pure prompt theme
+  get_url:
+    url: https://raw.githubusercontent.com/sindresorhus/pure/master/pure.zsh
+    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/pure.zsh-theme"
+    mode: "0755"
+
+- name: install async zsh
+  get_url:
+    url: https://raw.githubusercontent.com/sindresorhus/pure/master/async.zsh
+    dest: "{{ lookup('env', 'HOME') }}/.oh-my-zsh/custom/async.zsh"
+    mode: "0755"
+
+- name: download snazzy theme
+  get_url:
+    url: https://raw.githubusercontent.com/sindresorhus/terminal-snazzy/master/Snazzy.terminal
+    dest: "{{ lookup('env', 'HOME') }}/Snazzy.terminal"
+
+- name: import snazzy theme
+  shell: open {{ lookup('env', 'HOME') }}/Snazzy.terminal
+
+- name: default to snazzy theme
+  osx_defaults:
+    domain: com.apple.Terminal.plist
+    key: "Default Window Settings"
+    type: string
+    value: "Snazzy"
+  notify: read terminal plist
+
+- name: startup to snazzy theme
+  osx_defaults:
+    domain: com.apple.Terminal.plist
+    key: "Startup Window Settings"
+    type: string
+    value: "Snazzy"
+  notify: read terminal plist

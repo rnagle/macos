@@ -1,6 +1,9 @@
 ---
 - hosts: localhost
   connection: local
+  handlers:
+    - name: read terminal plist
+      command: defaults read {{ lookup('env', 'HOME') }}/Library/Preferences/com.apple.Terminal.plist
   tasks:
     - name: ensure github.com is a known host
       lineinfile:

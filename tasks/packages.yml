@@ -12,6 +12,7 @@
     name: "{{ item }}"
     state: present
   with_items:
+    - gnupg2
     - mysql
     - postgresql
     - postgis
@@ -26,7 +27,6 @@
     - go
     - node
     - git
-    - macvim
     - ctags-exuberant
     - flake8
     - youtube-dl
