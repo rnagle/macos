@@ -11,9 +11,11 @@
   delegate_to: 127.0.0.1
 
 - name: install oh my zsh
-  shell: sh /tmp/install.sh
+  shell: /tmp/install.sh
   become: true
   become_user: "{{ local_username.stdout }}"
+  args:
+    executable: /bin/sh
 
 - name: change login shell to zsh
   user:
