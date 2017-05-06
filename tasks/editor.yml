@@ -1,64 +1,53 @@
 ---
-- name: install macvim 7.4
-  mac_pkg:
-    pkg_type: app
-    url: https://github.com/macvim-dev/macvim/releases/download/snapshot-108/MacVim.dmg
-    archive_type: dmg
-    archive_path: "MacVim.app"
-
-- name: install mvim helper
-  copy:
-    src: files/mvim
-    dest: /usr/local/bin/mvim
+- name: get janus install script
+  get_url:
+    url: https://raw.githubusercontent.com/carlhuda/janus/master/bootstrap.sh
+    dest: /tmp/janus.sh
     mode: "0755"
+    force: yes
 
 - name: install janus
-  shell: curl -L https://bit.ly/janus-bootstrap | bash
+  shell: /tmp/janus.sh
+  args:
+    executable: /bin/bash
 
 - name: install my janus config
-  shell: |
-    rm -Rf /tmp/janus
-    git clone --quiet git@github.com:rnagle/janus.git /tmp/janus
-    mv /tmp/janus {{ lookup('env', 'HOME') }}/.janus
-    cd {{ lookup('env', 'HOME') }}/.janus
-    git submodule update --init --recursive
+  git:
+    repo: git@github.com:rnagle/janus.git
+    dest: "{{ lookup('env', 'HOME') }}/.janus"
+    clone: yes
+    track_submodules: yes
 
-- name: set up vimrc symlink
+- name: set up vimrc symlinks
   file:
-    src: "{{ lookup('env', 'HOME') }}/.janus/vimrc.after"
-    dest: "{{ lookup('env', 'HOME') }}/.vimrc.after"
+    src: "{{ lookup('env', 'HOME') }}/.janus/{{ item }}"
+    dest: "{{ lookup('env', 'HOME') }}/.{{ item }}"
     state: link
-
-- name: set up gvimrc symlink
-  file:
-    src: "{{ lookup('env', 'HOME') }}/.janus/gvimrc.after"
-    dest: "{{ lookup('env', 'HOME') }}/.gvimrc.after"
-    state: link
+  with_items:
+    - "vimrc.after"
+    - "gvimrc.after"
 
 - name: get meslo powerline fonts
   get_url:
     url: "https://github.com/powerline/fonts/raw/master/Meslo%20Dotted/{{ item }}"
     dest: "{{ lookup('env', 'HOME') }}/Library/Fonts/{{ item }}"
   with_items:
-    - "Meslo LG L DZ Regular for Powerline.ttf"
-    - "Meslo LG M DZ Regular for Powerline.ttf"
-    - "Meslo LG S DZ Regular for Powerline.ttf"
+    - "Meslo%20LG%20L%20DZ%20Regular%20for%20Powerline.ttf"
+    - "Meslo%20LG%20M%20DZ%20Regular%20for%20Powerline.ttf"
+    - "Meslo%20LG%20S%20DZ%20Regular%20for%20Powerline.ttf"
 
 - name: install js and json linters
-  shell: |
-    npm install -g jscs
-    npm install -g jsonlint
-
-- name: check for ~/.config dir
-  stat:
-    path: "{{ lookup('env', 'HOME') }}/.config"
-  register: config_check
+  npm:
+    name: "{{ item }}"
+    global: yes
+  with_items:
+    - jscs
+    - jsonlint
 
 - name: create ~/.config directory
   file:
     path: "{{ lookup('env', 'HOME') }}/.config"
     state: directory
-  when: not config_check.stat.exists
 
 - name: set up flake8 config
   file:
