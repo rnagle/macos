@@ -18,4 +18,3 @@
     - include: tasks/shell.yml
     - include: tasks/editor.yml
     - include: tasks/virtualenv.yml
-    - include: tasks/apps.yml

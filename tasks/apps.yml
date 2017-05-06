@@ -1,7 +1,0 @@
----
-- include: apps/chrome.yml
-- include: apps/dropbox.yml
-- include: apps/hipchat.yml
-- include: apps/vagrant.yml
-- include: apps/virtualbox.yml
-- include: apps/slack.yml

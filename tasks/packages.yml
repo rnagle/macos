@@ -13,20 +13,25 @@
     state: present
   with_items:
     - gnupg2
-    - mysql
-    - postgresql
-    - postgis
     - awscli
     - ack
-    - nginx
     - python
     - wget
-    - redis
-    - memcached
     - rbenv
     - go
     - node
     - git
     - ctags-exuberant
     - flake8
-    - youtube-dl
+    - macvim
+
+- homebrew_cask:
+    name: "{{ item }}"
+    state: present
+  with_items:
+    - chrome
+    - dropbox
+    - hipchat
+    - vagrant
+    - virtualbox
+    - slack
