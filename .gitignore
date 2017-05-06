@@ -1,4 +1,2 @@
-files/ssh/id_rsa
-files/ssh/id_rsa.pub
-files/ssh/config
+files/ssh/*
 *.retry

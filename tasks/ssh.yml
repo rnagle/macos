@@ -1,18 +1,9 @@
 ---
-- name: copy ssh config
-  copy:
-    src: files/ssh/config
-    dest: "{{ lookup('env', 'HOME') }}/.ssh/config"
-    mode: "0644"
-
-- name: copy private key
-  copy:
-    src: files/ssh/id_rsa
-    dest: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa"
-    mode: "0600"
-
-- name: copy public key
-  copy:
-    src: files/ssh/id_rsa.pub
-    dest: "{{ lookup('env', 'HOME') }}/.ssh/id_rsa.pub"
-    mode: "0600"
+- name: sync files/ssh to ~/.ssh
+  synchronize:
+    src: files/ssh/
+    dest: "{{ lookup('env', 'HOME') }}/.ssh/"
+    perms: yes
+    recursive: yes
+    rsync_opts:
+      - "--exclude=.keep"
