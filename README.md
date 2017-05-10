@@ -36,11 +36,9 @@ Installs and configures a bunch of my preferred tools, apps, etc.
 - Python specific:
     - Installs virtualenv and virtualenvwrapper
 - Macvim:
-    - Installs macvim as a part of `tasks/packages.yml`
     - Uses Janus
     - Installs my Janus config
 
 ## TODO:
     - Configure `rbenv`
     - Configure `go` related stuff
-    - Would be nice if apps were installed at the latest version available
