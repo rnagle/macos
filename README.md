@@ -28,7 +28,7 @@ Installs and configures a bunch of my preferred tools, apps, etc.
     - Change login shell to zsh
     - Installs oh-my-zsh
 - SSH:
-    - Syncs files/ssh/ -> ~/.ssh/
+    - Syncs files/ssh/ -> ~/.ssh/ (OR you can put your keys directly in ~/.ssh before provisioning)
     - Uses ssh to clone repos from Github, so this is required
 - Python specific:
     - Installs virtualenv and virtualenvwrapper

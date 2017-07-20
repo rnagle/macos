@@ -24,6 +24,9 @@
     - ctags-exuberant
     - flake8
     - macvim
+    - terraform
+    - docker
+    - pinentry
 
 - homebrew_cask:
     name: "{{ item }}"
@@ -35,3 +38,6 @@
     - vagrant
     - virtualbox
     - slack
+    - keybase
+    - docker
+    - gpgtools
