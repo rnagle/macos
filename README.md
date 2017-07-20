@@ -5,7 +5,7 @@ Installs and configures a bunch of my preferred tools, apps, etc.
 ## How to
 
 - Download/checkout the repo: `git clone https://github.com/rnagle/macos.git`
-- Place id_rsa, id_rsa.pub and config in files/ssh before running `provision.sh`
+- Place your ssh keys (e.g., id_rsa, id_rsa.pub) and config in ~/.ssh before running `provision.sh`
 - Run `./provision.sh`
 
 ## Notes
