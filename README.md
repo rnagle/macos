@@ -15,14 +15,7 @@ Installs and configures a bunch of my preferred tools, apps, etc.
 
 ## What's included?
 
-- Apps:
-    - Chrome
-    - Dropbox
-    - HipChat
-    - Slack
-    - Vagrant
-    - Virtualbox
-- Packages:
+- Apps and Packages:
     - See `tasks/packages.yml`
 - Shell:
     - Change login shell to zsh
