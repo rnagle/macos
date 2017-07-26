@@ -28,6 +28,7 @@
     - docker
     - pinentry
     - jq
+    - packer
 
 - homebrew_cask:
     name: "{{ item }}"
