@@ -27,6 +27,7 @@
     - terraform
     - docker
     - pinentry
+    - jq
 
 - homebrew_cask:
     name: "{{ item }}"
